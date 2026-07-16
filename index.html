@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh"><head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>claudemind 入口</title>
+<style>
+body{font-family:-apple-system,system-ui,sans-serif;display:flex;min-height:90vh;align-items:center;justify-content:center;background:#f5f6f8;color:#333}
+.card{max-width:420px;text-align:center;background:#fff;border-radius:14px;padding:34px 30px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+a{color:#2f6fd0}button{margin-top:14px;padding:9px 22px;font-size:15px;border:0;border-radius:8px;background:#2f6fd0;color:#fff;cursor:pointer}
+.dim{font-size:13px;color:#98a0ac;margin-top:14px}
+</style></head><body><div class="card">
+<div id="st">&#9203; 正在把你送进脑图&hellip;</div>
+<div class="dim">这是 claudemind 的固定入口&mdash;&mdash;收藏本页即可，真实地址变了这里会自动跟上。</div>
+<script>
+var T='https://bolt-davidson-printer-litigation.trycloudflare.com';
+function go(){ location.replace(T+'/index.html'); }
+function fail(){ document.getElementById('st').innerHTML=
+  '&#128564; <b>主人的电脑此刻不在线（或公网通道没开）</b><br><br>稍后再点重试，或联系主人打开通道。'
+  +'<br><button onclick="location.reload()">&#128260; 重试</button>'; }
+var done=false, t=setTimeout(function(){ if(!done){done=true;fail();} },6000);
+fetch(T+'/health',{mode:'no-cors',cache:'no-store'}).then(function(){ if(!done){done=true;clearTimeout(t);go();} })
+ .catch(function(){ if(!done){done=true;clearTimeout(t);fail();} });
+</script>
+</div></body></html>
