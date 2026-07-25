@@ -1,27 +1,54 @@
 <!doctype html>
-<html lang="zh"><head>
-<meta charset="utf-8">
-<meta name="robots" content="noindex,nofollow">
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>claudemind 入口</title>
 <style>
-body{font-family:-apple-system,system-ui,sans-serif;display:flex;min-height:90vh;align-items:center;justify-content:center;background:#f5f6f8;color:#333}
-.card{max-width:420px;text-align:center;background:#fff;border-radius:14px;padding:34px 30px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
-a{color:#2f6fd0}button{margin-top:14px;padding:9px 22px;font-size:15px;border:0;border-radius:8px;background:#2f6fd0;color:#fff;cursor:pointer}
-.dim{font-size:13px;color:#98a0ac;margin-top:14px}
-</style></head><body><div class="card">
-<div id="st">&#9203; 正在把你送进脑图&hellip;</div>
-<div class="dim">这是 claudemind 的固定入口&mdash;&mdash;收藏本页即可，真实地址变了这里会自动跟上。</div>
-<script>
-var T='https://containing-optimal-societies-end.trycloudflare.com';
-function go(){ location.replace(T+'/index.html'); }
-function fail(){ document.getElementById('st').innerHTML=
-  '&#128564; <b>主人的电脑此刻不在线（或公网通道没开）</b><br><br>稍后再点重试，或联系主人打开通道。'
-  +'<br><button onclick="location.reload()">&#128260; 重试</button>'; }
-var done=false, t=setTimeout(function(){ if(!done){done=true;fail();} },6000);
-// 用 cors 探活并看 r.ok：/health 已带 Access-Control-Allow-Origin。旧写法 mode:'no-cors' 的 opaque 响应
-// 对任何状态码(含隧道已死回的 530/Error 1033)都 resolve→会把同事送进 Cloudflare 报错页(对抗复核 high 修正)。
-fetch(T+'/health',{cache:'no-store'}).then(function(r){ if(done)return; done=true; clearTimeout(t); if(r&&r.ok) go(); else fail(); })
- .catch(function(){ if(!done){done=true;clearTimeout(t);fail();} });
-</script>
-</div></body></html>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;letter-spacing:0}
+body{min-height:100dvh;padding:24px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f2f4f7;color:#20242b;display:grid;place-items:center}
+.shell{width:min(100%,520px);background:#fff;border:1px solid #e2e6eb;border-radius:8px;box-shadow:0 16px 44px rgba(31,39,51,.11);overflow:hidden}
+.brand{padding:22px 24px 0;color:#69717d;font-size:13px;font-weight:650}.content{padding:26px 24px 22px}.statusline{display:flex;align-items:flex-start;gap:14px}
+.signal{position:relative;flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:#e9f0fb}.signal:after{content:"";position:absolute;inset:10px;border-radius:50%;background:#3773c9}
+.checking .signal:after{background:transparent;border:3px solid #b8c9e4;border-top-color:#3773c9;animation:spin .8s linear infinite}.offline .signal{background:#fff1da}.offline .signal:after{background:#c17a13}.working .signal:after{background:#3773c9}.ready .signal{background:#e5f3ea}.ready .signal:after{background:#26834b}
+h1{margin:1px 0 8px;font-size:22px;line-height:1.3;font-weight:720}p{margin:0;color:#5d6672;font-size:15px;line-height:1.65}.helper{margin-top:14px;color:#78818d;font-size:13px}
+.recovery{display:none;margin-top:22px}.offline .recovery,.working .recovery{display:block}.field{display:block;margin-bottom:9px;color:#424a55;font-size:13px;font-weight:650}
+input{width:100%;height:44px;padding:0 12px;border:1px solid #ccd3dc;border-radius:7px;background:#fff;color:#20242b;font:inherit;font-size:15px;outline:none}input:focus{border-color:#3773c9;box-shadow:0 0 0 3px rgba(55,115,201,.13)}
+.error{min-height:20px;margin-top:6px;color:#ae3f3f;font-size:12px}.actions{display:flex;gap:10px;margin-top:11px}button{height:44px;border:0;border-radius:7px;padding:0 16px;font:inherit;font-size:14px;font-weight:680;cursor:pointer;transition:transform 120ms cubic-bezier(.23,1,.32,1),background-color 160ms ease,color 160ms ease}button:active{transform:scale(.98)}button:disabled{cursor:not-allowed;opacity:.58;transform:none}.primary{flex:1;background:#2f6fc8;color:#fff}.secondary{background:#edf0f4;color:#434b57}
+@media(hover:hover) and (pointer:fine){.primary:hover:not(:disabled){background:#275fae}.secondary:hover:not(:disabled){background:#e3e7ec}}
+.timeline{display:none;margin-top:22px;padding-top:18px;border-top:1px solid #e7eaee}.working .timeline,.ready .timeline{display:block}.timeline h2{margin:0 0 12px;color:#424a55;font-size:13px}.steps{margin:0;padding:0;list-style:none}.steps li{display:grid;grid-template-columns:14px minmax(0,1fr) auto;gap:9px;align-items:start;padding:5px 0;color:#5f6874;font-size:13px;line-height:1.45}.steps .dot{width:8px;height:8px;margin-top:5px;border-radius:50%;background:#c5ccd5}.steps li.current .dot{background:#3773c9;box-shadow:0 0 0 4px #e9f0fb}.steps li.done .dot{background:#2f8a55}.steps time{color:#949ca7;font-variant-numeric:tabular-nums}.foot{padding:15px 24px;border-top:1px solid #e7eaee;background:#fafbfc;color:#818995;font-size:12px;line-height:1.55}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:560px){body{padding:12px}.brand{padding:18px 18px 0}.content{padding:22px 18px 19px}h1{font-size:20px}.actions{flex-direction:column}.primary{flex:none}.secondary{order:2}.foot{padding:14px 18px}}
+@media(prefers-reduced-motion:reduce){.checking .signal:after{animation:none}button{transition:none}}
+</style></head><body><main class="shell checking" id="shell">
+<div class="brand">claudemind · 固定入口</div><section class="content">
+<div class="statusline"><span class="signal" aria-hidden="true"></span><div><h1 id="title">正在连接脑图</h1><p id="message">正在核对最新地址和系统状态，请稍候。</p></div></div>
+<p class="helper" id="helper">地址变化会自动跟上，不需要重新索要链接。</p>
+<div class="recovery"><label class="field" for="code">协作口令</label><input id="code" type="password" autocomplete="one-time-code" maxlength="80" placeholder="输入你收到的协作口令"><div class="error" id="error" aria-live="polite"></div><div class="actions"><button class="primary" id="recoverBtn">尝试自动恢复</button><button class="secondary" id="checkBtn">重新检测</button></div></div>
+<section class="timeline" aria-live="polite"><h2>恢复进度</h2><ol class="steps" id="steps"></ol></section>
+</section><footer class="foot">你还没有进入编辑器，因此当前没有任何修改会丢失。恢复后本页会自动带你进入脑图。</footer>
+</main><script>
+const BOOT={"target":"https://containing-optimal-societies-end.trycloudflare.com","rawState":"https://raw.githubusercontent.com/Morpheustang/claudemind-link/gh-pages/target.json","recovery":{"v":1,"broker":"https://ntfy.sh","requestTopic":"cm-rq-j_12pFab8UO-aneih0VIvLvMs4ny7jjX","statusTopic":"cm-st-fdu3LZDWq15gZDZqccammmJAIHePhnHp","publicKey":"-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApRtKtLwrI8RRSnTA5wF7\n2hxCdVBdmHRXHbmypKjsmNSnjivcB80uTtaH1rqry97FsOA6xD1n1N9BxZNTBn/V\nRS//Xh9NEfFu4EDbA87l8gSXvR2qFdCcYoK/bCYALw6+D+ZnscnpA7dshIGQuBME\nEK5DLuzcjg+SYYF/Koy1UGhfg1/zIR5EHQ8Sd/N41B6ePlcM4ElFu1PKI7f8whwC\npzkrDV8zgvKSh6+ukCiQfdwDiU+kg79qSZXsk4WvV7/LIpMG9dyN8vHBztDccdOR\n7tKll3R4QLftM0SRe+lj0fvD73YGXlW7xgm+ISPdhcfESY7AgKEMOcfatGey7rWg\nbQIDAQAB\n-----END PUBLIC KEY-----"},"build":"1785002022537-cbad66e4"};
+const shell=document.getElementById('shell'),title=document.getElementById('title'),message=document.getElementById('message'),helper=document.getElementById('helper'),code=document.getElementById('code'),error=document.getElementById('error'),recoverBtn=document.getElementById('recoverBtn'),checkBtn=document.getElementById('checkBtn'),steps=document.getElementById('steps');
+let currentTarget=BOOT.target,checking=false,recoveryBusy=false,statusKey=null;
+const targetPattern=/^https:\/\/[a-z0-9-]+\.trycloudflare\.com$/;
+function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms))}
+function b64u(bytes){let s='';new Uint8Array(bytes).forEach(b=>s+=String.fromCharCode(b));return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function unb64u(value){value=value.replace(/-/g,'+').replace(/_/g,'/');while(value.length%4)value+='=';const s=atob(value),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a}
+function pemBytes(pem){return unb64u(pem.replace(/-----[^-]+-----/g,'').replace(/\s+/g,''))}
+async function fetchTimed(url,options,ms){const c=new AbortController(),timer=setTimeout(()=>c.abort(),ms);try{return await fetch(url,Object.assign({},options||{},{signal:c.signal}))}finally{clearTimeout(timer)}}
+async function healthy(target){if(!targetPattern.test(target||''))return false;try{return (await fetchTimed(target+'/health?entry='+Date.now(),{cache:'no-store'},5000)).ok}catch(_){return false}}
+async function freshTarget(){if(!BOOT.rawState)return null;try{const r=await fetchTimed(BOOT.rawState+'?v='+Date.now(),{cache:'no-store'},4500),data=r.ok?await r.json():{};return targetPattern.test(data.url||'')?data.url:null}catch(_){return null}}
+function go(target){location.replace(target+'/index.html'+location.search+location.hash)}
+function setMode(mode,newTitle,newMessage,newHelper){shell.className='shell '+mode;title.textContent=newTitle;message.textContent=newMessage;if(newHelper!==undefined)helper.textContent=newHelper}
+function addStep(text,state){const li=document.createElement('li');li.className=state||'current';const dot=document.createElement('span');dot.className='dot';const label=document.createElement('span');label.textContent=text;const stamp=document.createElement('time');stamp.textContent=new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'});li.append(dot,label,stamp);steps.querySelectorAll('.current').forEach(x=>x.className='done');steps.append(li)}
+function showOffline(){setMode('offline','claudemind 暂时没连上','不是你的权限问题。系统会继续自动检测，你也可以用协作口令请求恢复。','页面每 10 秒重新检测一次；恢复后会自动进入脑图。');recoverBtn.disabled=false;checkBtn.disabled=false}
+async function checkConnection(showProgress){if(checking)return;checking=true;if(showProgress)setMode('checking','正在重新检测','正在核对固定入口、最新地址和公网通道。','通常几秒内就能确认。');try{const pair=await Promise.all([healthy(currentTarget),freshTarget()]);if(pair[0])return go(currentTarget);if(pair[1]){currentTarget=pair[1];if(await healthy(currentTarget))return go(currentTarget)}showOffline()}finally{checking=false}}
+async function requestKeys(){if(statusKey)return statusKey;const bytes=pemBytes(BOOT.recovery.publicKey);statusKey={encrypt:await crypto.subtle.importKey('spki',bytes,{name:'RSA-OAEP',hash:'SHA-256'},false,['encrypt']),verify:await crypto.subtle.importKey('spki',bytes,{name:'RSASSA-PKCS1-v1_5',hash:'SHA-256'},false,['verify'])};return statusKey}
+async function verifyStatus(value){try{const env=JSON.parse(value),raw=unb64u(env.d),sig=unb64u(env.s),keys=await requestKeys();if(!await crypto.subtle.verify('RSASSA-PKCS1-v1_5',keys.verify,sig,raw))return null;return JSON.parse(new TextDecoder().decode(raw))}catch(_){return null}}
+async function pollStatus(requestId,since){const deadline=Date.now()+120000;while(Date.now()<deadline){try{const url=BOOT.recovery.broker+'/'+BOOT.recovery.statusTopic+'/json?poll=1&since='+encodeURIComponent(since),r=await fetchTimed(url,{cache:'no-store'},12000);if(r.ok){for(const line of (await r.text()).trim().split('\n')){if(!line)continue;const evt=JSON.parse(line);if(evt.id)since=evt.id;const p=await verifyStatus(evt.message||'');if(!p||p.i!==requestId)continue;applyPhase(p);if(['ready','failed','denied','owner_off'].includes(p.p))return}}}catch(_){}await delay(4500)}applyPhase({p:'failed',m:'恢复程序暂未回应，已保留请求；你可以稍后重新检测。'})}
+function applyPhase(p){const text=p.m||'正在处理';addStep(text,p.p==='ready'?'done':'current');if(p.p==='ready'){setMode('ready','系统已经恢复',text,'正在重新进入脑图。');setTimeout(()=>checkConnection(false),900)}else if(p.p==='denied'){setMode('offline','协作口令没有通过',text,'请核对负责人发给你的口令后再试。');finishRecovery()}else if(p.p==='owner_off'){setMode('offline','公网访问已暂停',text,'这不是故障；请等待负责人重新开放。');finishRecovery()}else if(p.p==='failed'){setMode('offline','自动恢复暂未完成',text,'故障记录已经留下，你可以稍后重新检测。');finishRecovery()}else setMode('working','正在尝试恢复',text,'请留在本页，完成后会自动进入脑图。')}
+function finishRecovery(){recoveryBusy=false;recoverBtn.disabled=false;checkBtn.disabled=false}
+async function requestRecovery(){if(recoveryBusy)return;error.textContent='';const memberCode=code.value.trim();if(!memberCode){error.textContent='请输入你收到的协作口令';code.focus();return}if(!BOOT.recovery.publicKey){error.textContent='恢复入口还没准备好，请先重新检测';return}recoveryBusy=true;recoverBtn.disabled=true;checkBtn.disabled=true;steps.textContent='';setMode('working','正在发出恢复请求','正在加密验证信息，不会公开你的协作口令。','请留在本页，恢复进度会显示在这里。');addStep('正在安全发送恢复请求');try{const keys=await requestKeys(),requestId=b64u(crypto.getRandomValues(new Uint8Array(12))),payload=JSON.stringify({v:1,i:requestId,c:memberCode,t:Math.floor(Date.now()/1000)}),encrypted=await crypto.subtle.encrypt({name:'RSA-OAEP'},keys.encrypt,new TextEncoder().encode(payload)),posted=await fetchTimed(BOOT.recovery.broker+'/'+BOOT.recovery.requestTopic,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:b64u(encrypted)},15000);if(!posted.ok)throw new Error();addStep('恢复请求已发出，正在等待独立恢复程序接单');await pollStatus(requestId,String(Math.floor(Date.now()/1000)-3))}catch(_){setMode('offline','恢复请求暂时没发出去','外部求救站暂时没有响应，系统仍会继续自动检测。','你可以稍后再试，或点“重新检测”。');error.textContent='本次没有发送成功';finishRecovery()}}
+recoverBtn.addEventListener('click',requestRecovery);checkBtn.addEventListener('click',()=>checkConnection(true));code.addEventListener('keydown',e=>{if(e.key==='Enter')requestRecovery()});
+checkConnection(false);setInterval(()=>{if(!recoveryBusy)checkConnection(false)},10000);
+</script></body></html>
